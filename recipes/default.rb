@@ -8,10 +8,6 @@
 #
 include_recipe 'apt'
 
-%w( vim vim-addon-manager git ).each do |p|
-  package p
-end
-
 include_recipe 'fewbytes-mcollective::rabbitmq'
 include_recipe 'fewbytes-mcollective::server'
 include_recipe 'fewbytes-mcollective::client'

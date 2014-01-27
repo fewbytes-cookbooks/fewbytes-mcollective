@@ -10,7 +10,7 @@
 remote_file "#{Chef::Config[:file_cache_path]}/mcollective-omnibus.deb" do
   source 'http://public.fewbytes.com.s3.amazonaws.com/mcollective/mcollective_2.3.3-0.ubuntu.12.04_amd64.deb'
   mode '0644'
-  action :create_if_missing 
+  action :create_if_missing
 end
 
 dpkg_package 'mcollective' do
