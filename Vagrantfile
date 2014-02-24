@@ -5,10 +5,10 @@ Vagrant.configure("2") do |config|
   # options are documented and commented below. For a complete reference,
   # please see the online documentation at vagrantup.com.
   config.omnibus.chef_version = :latest
-  config.vm.hostname = "fewbytes-mcollective-berkshelf"
+  config.vm.hostname = "mcollective-berkshelf"
 
   # Every Vagrant virtual environment requires a box to build off of.
-  config.vm.box = "opscode-ubuntu-12.04"
+  config.vm.box = "canonical-ubuntu-13.04"
 
   # The url from where the 'config.vm.box' box will be fetched if it
   # doesn't already exist on the user's system.
@@ -76,7 +76,7 @@ Vagrant.configure("2") do |config|
     }
 
     chef.run_list = [
-        "recipe[fewbytes-mcollective::default]"
+        "recipe[mcollective::default]"
     ]
   end
 end

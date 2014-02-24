@@ -8,6 +8,7 @@
 #
 include_recipe 'apt'
 
-include_recipe 'fewbytes-mcollective::rabbitmq'
-include_recipe 'fewbytes-mcollective::server'
-include_recipe 'fewbytes-mcollective::client'
+include_recipe 'mcollective::rabbitmq'
+include_recipe 'mcollective::server'
+include_recipe 'mcollective::plugins'
+include_recipe 'mcollective::client'

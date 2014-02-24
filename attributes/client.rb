@@ -11,15 +11,15 @@ default['mcollective']['client']['config'] = {
     ssl_client_private: '/etc/mcollective/john-private.pem',
     ssl_client_public: '/etc/mcollective/john-public.pem',
     rabbitmq: {
-      vhost: '/',
+      vhost: node['mcollective']['rabbitmq']['vhost'],
       pool: {
         size: 1,
         1 => {
           # Sane default
           host: 'localhost',
           port: 61_613,
-          user: 'guest',
-          password: 'guest'
+          user: node['mcollective']['rabbitmq']['user'],
+          password: node['mcollective']['rabbitmq']['password']
         }
       }
     }

@@ -1,6 +1,7 @@
 module ChefHelpers
   # Some Doc
   module Mcollective
+
     def render(opts)
       flatten(Hash.new, nil, opts).map { |k, v| [k, v].join(' = ') }.join("\n")
     end

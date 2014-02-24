@@ -1,5 +1,5 @@
 #
-# Cookbook Name:: fewbytes-mcollective
+# Cookbook Name:: mcollective
 # Recipe:: server
 #
 # Copyright (C) 2013 Alex SHD
@@ -31,7 +31,7 @@ file ::File.join(node['mcollective']['conf_dir'], 'server.cfg') do
   owner 'root'
   group 'root'
   mode '0644'
-  content render(node['mcollective']['server']['config'])
+  content lazy { render(node['mcollective']['server']['config'].to_hash) }
   notifies :restart, "runit_service[mcollective-server-omnibus]"
 end
 
@@ -40,6 +40,11 @@ end
     mode "0600"
     action :create
   end
+end
+
+file node['mcollective']['server']['config']['classesfile'] do
+  mode "0644"
+  content (node.recipes.map{|r| "recipe.#{r}"} + node.roles.map{|r| "role.#{r}"}).join("\n")
 end
 
 service 'mcollective' do

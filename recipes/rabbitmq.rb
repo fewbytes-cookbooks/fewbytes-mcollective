@@ -15,23 +15,33 @@ include_recipe 'rabbitmq'
   end
 end
 
-cookbook_file '/tmp/rabbitmq.sh' do
-  source 'rabbitmq.sh'
-  owner 'root'
-  group 'root'
-  mode '0644'
+rabbitmq_vhost node['mcollective']['rabbitmq']['virtualhost'] do
+  action :add
 end
 
-cookbook_file '/usr/local/bin/rabbitmqadmin' do
-  source 'rabbitmqadmin'
-  owner 'root'
-  group 'root'
-  mode '0755'
-  notifies :run, "execute[rabbitmq.sh]"
+rabbitmq_user node['mcollective']['rabbitmq']['user'] do
+  action [:add, :set_permissions]
+  vhost node['mcollective']['rabbitmq']['virtualhost']
+  password node['mcollective']['rabbitmq']['password']
+  permissions ".* .* .*"
 end
 
-execute 'rabbitmq.sh' do
-  command 'sh /tmp/rabbitmq.sh'
-  creates '/tmp/rabbitHome'
-  action :nothing
+chef_gem "bunny"
+
+ruby_block "declare rabbitmq exchanges for collectives" do
+  block do
+    require 'bunny'
+    conn = Bunny.new(
+      :vhost => node["mcollective"]["rabbitmq"]["virtualhost"],
+      :user => node['mcollective']['rabbitmq']['user'],
+      :password => node['mcollective']['rabbitmq']['password'])
+    conn.start
+    ch = conn.create_channel
+    node['mcollective']['rabbitmq']['collectives'].each do |collective|
+      ch.topic("#{collective}_broadcast")
+      ch.direct("#{collective}_directed")
+    end
+    ch.close
+    conn.close
+  end
 end
