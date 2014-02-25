@@ -11,7 +11,7 @@ file '/etc/mcollective/client.cfg' do
   owner 'root'
   group 'root'
   mode '0644'
-  content render(node['mcollective']['client']['config'])
+  content lazy { render(node['mcollective']['client']['config']) }
 end
 
 cookbook_file '/etc/mcollective/john-private.pem' do
