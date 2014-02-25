@@ -1,4 +1,4 @@
-include_attribute "mcollective"
+include_attribute "mcollective::rabbitmq"
 
 default['mcollective']['client']['config'] = {
   main_collective: 'mcollective',
