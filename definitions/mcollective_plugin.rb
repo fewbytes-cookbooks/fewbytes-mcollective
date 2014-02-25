@@ -14,6 +14,10 @@ define :mcollective_plugin, :provider => :ark do
 		end
 	end
 
+	directory plugin_dir do
+		mode "0755"
+	end
+
 	case params[:provider]
 	when :ark
 		ark deploy_dir do
