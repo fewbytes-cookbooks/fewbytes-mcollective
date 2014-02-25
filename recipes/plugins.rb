@@ -9,6 +9,13 @@
 
 include_recipe "git"
 
+mcollective_plugin "opscodeohai-facts" do
+	source "https://github.com/puppetlabs/mcollective-ohai-facts.git"
+	provider :git
+end
+
+node.default['mcollective']['server']['config']['factsource'] = 'opscodeohai'
+
 mcollective_plugin "sysctl-data" do
 	source "https://github.com/puppetlabs/mcollective-sysctl-data.git"
 	provider :git
