@@ -1,3 +1,5 @@
+include_attribute "mcollective"
+
 default['mcollective']['client']['config'] = {
   main_collective: 'mcollective',
   collectives: 'mcollective',
