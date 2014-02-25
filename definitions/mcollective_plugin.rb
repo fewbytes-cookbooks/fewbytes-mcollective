@@ -1,5 +1,6 @@
 define :mcollective_plugin, :provider => :ark do
 	plugin_dir = ::File.join(node["mcollective"]["extra_plugins_dir"], params[:name])
+	deploy_dir = ::File.join(plugin_dir, "mcollective")
 	node.default['mcollective']['server']['config']['libdir'] << plugin_dir
 	node.default['mcollective']['client']['config']['libdir'] << plugin_dir
 
@@ -15,14 +16,14 @@ define :mcollective_plugin, :provider => :ark do
 
 	case params[:provider]
 	when :ark
-		ark plugin_dir do
+		ark deploy_dir do
 			source params[:source]
 			checksum params[:checksum] if params[:checksum]
 			action :put
 			notifies :restart, "runit_service[mcollective-server-omnibus]"
 		end
 	when :git
-		git plugin_dir do
+		git deploy_dir do
 			repository params[:source]
 			revision params[:revision] if params[:revision]
 			action :sync
