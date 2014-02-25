@@ -11,7 +11,7 @@ default['mcollective']['client']['config'] = {
     ssl_client_private: '/etc/mcollective/john-private.pem',
     ssl_client_public: '/etc/mcollective/john-public.pem',
     rabbitmq: {
-      vhost: node['mcollective']['rabbitmq']['vhost'],
+      vhost: node['mcollective']['rabbitmq']['virtualhost'],
       pool: {
         size: 1,
         1 => {

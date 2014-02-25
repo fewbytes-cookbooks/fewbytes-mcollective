@@ -1,6 +1,7 @@
 define :mcollective_plugin, :provider => :ark do
 	plugin_dir = ::File.join(node["mcollective"]["extra_plugins_dir"], params[:name])
 	node.default['mcollective']['server']['config']['libdir'] << plugin_dir
+	node.default['mcollective']['client']['config']['libdir'] << plugin_dir
 
 	raise RuntimeError, "You must provide source param" unless params[:source]
 	
