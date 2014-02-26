@@ -1,4 +1,5 @@
 default['mcollective']['conf_dir'] = "/etc/mcollective"
+default['mcollective']['lib_dir'] = "/var/lib/mcollective"
 
 case platform_family
 when "debian"

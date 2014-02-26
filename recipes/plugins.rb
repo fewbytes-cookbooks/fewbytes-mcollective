@@ -9,6 +9,14 @@
 
 include_recipe "git"
 
+# Parent directory for plugins 
+directory node['mcollective']['lib_dir'] do
+  owner "root"
+  group "root"
+  mode 00755
+  action :create
+end
+
 mcollective_plugin "opscodeohai-facts" do
 	source "https://github.com/puppetlabs/mcollective-ohai-facts.git"
 	provider :git
