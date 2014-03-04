@@ -49,6 +49,7 @@ Supported params:
 - `strip_leading_dir` - whether to strip the leader directory when extracting the archive. defaults to `true`
 - `aws_access_key_id` - for the S3 provider
 - `aws_secret_access_key` - for the S3 provider
+- `bucket` - for the S3 provider
 
 Some plugins may need an extra gem; When using mcollective-omnibus you can install the gem using the `mcollective_omnibus_gem` definition e.g.:
 
