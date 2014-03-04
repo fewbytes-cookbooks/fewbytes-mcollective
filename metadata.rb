@@ -10,4 +10,5 @@ depends 'apt'       # `apt-get update`
 depends 'ark'       # plugin installation from `tar.gz` files
 depends 'rabbitmq'  # rabbitmq
 depends 'runit'     # mcollective server service ( initrd, that comes with omnibus pacage disabledd  )
-depends 'git'
+depends 'git'		# for git based plugin deployment
+depends 'aws'       # for deploying plugins from s3

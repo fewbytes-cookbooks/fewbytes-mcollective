@@ -17,14 +17,37 @@ define :mcollective_plugin, :provider => :ark do
 	directory plugin_dir do
 		mode "0755"
 	end
-
+	
+	# TODO: refactor so we don't repeat ourselves so much
 	case params[:provider]
 	when :ark
-		ark deploy_dir do
-			source params[:source]
+		ark params[:name] do
+			path plugin_dir
+			url params[:source]
 			checksum params[:checksum] if params[:checksum]
+			strip_leading_dir params[:strip_leading_dir] unless params[:strip_leading_dir].nil?
 			action :put
 			notifies :restart, "runit_service[mcollective-server-omnibus]"
+		end
+		link deploy_dir do
+			to ::File.join(plugin_dir, params[:name])
+		end
+	when :s3
+		include_recipe 'aws'
+		s3url = RightAws::S3Interface.new(
+				params[:aws_access_key_id],
+				params[:aws_secret_access_key]
+			).get_link(params[:bucket], params[:source])
+		ark params[:name] do
+			path plugin_dir
+			url s3url
+			checksum params[:checksum] if params[:checksum]
+			strip_leading_dir params[:strip_leading_dir] unless params[:strip_leading_dir].nil?
+			action :put
+			notifies :restart, "runit_service[mcollective-server-omnibus]"
+		end
+		link deploy_dir do
+			to ::File.join(plugin_dir, params[:name])
 		end
 	when :git
 		git deploy_dir do
