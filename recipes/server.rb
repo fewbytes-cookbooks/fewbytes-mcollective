@@ -19,6 +19,7 @@ case node.platform_family
   dpkg_package 'mcollective' do
     source "#{Chef::Config[:file_cache_path]}/mcollective-omnibus.deb"
     action :install
+    notifies :restart, "runit_service[mcollective-server-omnibus]"
   end
 end
 
