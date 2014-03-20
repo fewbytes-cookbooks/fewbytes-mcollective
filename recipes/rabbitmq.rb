@@ -34,12 +34,14 @@ ruby_block "declare rabbitmq exchanges for collectives" do
     conn = Bunny.new(
       :vhost => node["mcollective"]["rabbitmq"]["virtualhost"],
       :user => node['mcollective']['rabbitmq']['user'],
-      :password => node['mcollective']['rabbitmq']['password'])
+      :password => node['mcollective']['rabbitmq']['password'],
+      :keepalive => true
+    )
     conn.start
     ch = conn.create_channel
     node['mcollective']['rabbitmq']['collectives'].each do |collective|
-      ch.topic("#{collective}_broadcast")
-      ch.direct("#{collective}_directed")
+      ch.topic("#{collective}_broadcast", :auto_delete => false, :durable => true)
+      ch.direct("#{collective}_directed", :auto_delete => false, :durable => true)
     end
     ch.close
     conn.close
