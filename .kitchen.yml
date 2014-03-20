@@ -1,15 +1,16 @@
 ---
 driver:
-  name: vagrant
+  name: ec2
 
 provisioner:
   name: chef_solo
 
 platforms:
   - name: ubuntu-12.04
+  - name: centos-6.4
 
 suites:
   - name: default
     run_list:
-      - recipe[fewbytes-mcollective::default]
+      - recipe[mcollective::default]
     attributes:
