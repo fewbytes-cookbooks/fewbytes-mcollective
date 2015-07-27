@@ -26,7 +26,11 @@ rabbitmq_user node['mcollective']['rabbitmq']['user'] do
   permissions ".* .* .*"
 end
 
-chef_gem "bunny"
+chef_gem "bunny" do
+  # Bunny 1.7.0 is the latest to support Ruby<2
+  version (::Gem::Version.new(RUBY_VERSION) < ::Gem::Version.new("2.0.0") ?
+    "1.7.0" : node['mcollective']['rabbitmq']['bunny_gem_version'])
+end
 
 ruby_block "declare rabbitmq exchanges for collectives" do
   block do
